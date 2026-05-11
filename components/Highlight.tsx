@@ -14,7 +14,7 @@ type Props = {
 export function Highlight({ children, className = "" }: Props) {
   return (
     <span
-      className={`bg-coral text-cream phosphor-coral-soft ${className}`}
+      className={`bg-coral text-cream phosphor-coral-soft whitespace-nowrap ${className}`}
       style={{
         boxDecorationBreak: "clone",
         WebkitBoxDecorationBreak: "clone",

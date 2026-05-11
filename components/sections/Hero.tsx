@@ -61,7 +61,7 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[65%_40%] md:object-[47%_50%]"
+          className="object-cover object-[45%_40%] md:object-[47%_50%]"
         />
         {/* Left-side legibility scrim — keeps the rocket clear on the right */}
         <div
