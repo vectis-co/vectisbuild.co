@@ -4,7 +4,7 @@ import { Reveal } from "../Reveal";
 export function Practices() {
   return (
     <section id="practices" className="surface-cream relative text-navy">
-      <div className="mx-auto max-w-[1200px] px-6 pt-28 pb-20 md:px-16 md:pt-36 md:pb-24">
+      <div className="mx-auto max-w-[1200px] px-6 pt-20 pb-16 md:px-16 md:pt-36 md:pb-24">
         <Reveal>
           <p className="font-mono text-[13px] tracking-[0.04em] text-navy/70">
             /two practices
@@ -17,14 +17,14 @@ export function Practices() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 gap-16 md:mt-24 md:grid-cols-12 md:gap-12">
+        <div className="mt-12 grid grid-cols-1 gap-12 md:mt-24 md:grid-cols-12 md:gap-12">
           <Reveal className="md:col-span-6" delay={0}>
             <article id="audit">
               <p className="font-mono text-[13px] tracking-[0.04em] text-navy/70">
                 /for businesses
               </p>
               <h3
-                className="mt-4 font-sans text-[24px] font-medium leading-[1.25] text-navy"
+                className="mt-4 font-sans text-[20px] font-medium leading-[1.25] text-navy md:text-[24px]"
                 style={{ wordSpacing: "normal", fontFeatureSettings: "normal" }}
               >
                 AI implementation, engineered to compound.
@@ -36,7 +36,7 @@ export function Practices() {
               </p>
               <a
                 href="#audit"
-                className="hover-underline group mt-7 inline-flex items-baseline font-mono text-[16px] font-medium text-coral transition-opacity duration-150 hover:opacity-90"
+                className="hover-underline group mt-7 inline-flex min-h-[44px] items-center font-mono text-[16px] font-medium text-coral transition-opacity duration-150 hover:opacity-90 active:opacity-75"
               >
                 <span>/audit</span>
                 <span
@@ -55,7 +55,7 @@ export function Practices() {
                 /for individuals
               </p>
               <h3
-                className="mt-4 font-sans text-[24px] font-medium leading-[1.25] text-navy"
+                className="mt-4 font-sans text-[20px] font-medium leading-[1.25] text-navy md:text-[24px]"
                 style={{ wordSpacing: "normal", fontFeatureSettings: "normal" }}
               >
                 A private AI cabinet for the next two years.
@@ -67,7 +67,7 @@ export function Practices() {
               </p>
               <a
                 href="#residency"
-                className="hover-underline group mt-7 inline-flex items-baseline font-mono text-[16px] font-medium text-coral transition-opacity duration-150 hover:opacity-90"
+                className="hover-underline group mt-7 inline-flex min-h-[44px] items-center font-mono text-[16px] font-medium text-coral transition-opacity duration-150 hover:opacity-90 active:opacity-75"
               >
                 <span>/residency</span>
                 <span

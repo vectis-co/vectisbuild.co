@@ -36,18 +36,18 @@ export function Compound() {
   return (
     <section id="compound" className="surface-navy relative text-cream">
       {/* Section eyebrow + etymology caption introduce the illustration */}
-      <div className="mx-auto max-w-[1200px] px-6 pt-20 md:px-16 md:pt-24">
+      <div className="mx-auto max-w-[1200px] px-6 pt-16 md:px-16 md:pt-24">
         <Reveal>
-          <p className="text-center font-mono text-[13px] tracking-[0.04em] text-cream/70">
+          <p className="text-center font-mono text-[12px] tracking-[0.04em] text-cream/70 md:text-[13px]">
             /how we compound
           </p>
         </Reveal>
         <Reveal>
-          <figcaption className="mx-auto mt-8 max-w-[60ch] text-center">
-            <p className="font-mono text-[13px] tracking-[0.04em] text-coral">
+          <figcaption className="mx-auto mt-6 max-w-[60ch] text-center md:mt-8">
+            <p className="font-mono text-[12px] tracking-[0.04em] text-coral md:text-[13px]">
               vectis · lever
             </p>
-            <p className="mt-3 font-italic text-[18px] leading-[1.35] text-cream">
+            <p className="mt-2 font-italic text-[16px] leading-[1.4] text-cream md:text-[18px]">
               compounding force from one applied point
             </p>
           </figcaption>
@@ -55,7 +55,7 @@ export function Compound() {
       </div>
 
       {/* Lever illustration anchors the spread, beneath the caption */}
-      <div className="mx-auto mt-12 max-w-[1400px] px-6 md:px-12">
+      <div className="mx-auto mt-8 max-w-[1400px] md:mt-12 md:px-12">
         <Reveal>
           <div className="relative aspect-[16/9] w-full overflow-hidden">
             <Image
@@ -69,15 +69,15 @@ export function Compound() {
         </Reveal>
       </div>
 
-      <div className="mx-auto max-w-[1200px] px-6 pt-24 pb-24 md:px-16 md:pt-32 md:pb-36">
+      <div className="mx-auto max-w-[1200px] px-6 pt-16 pb-20 md:px-16 md:pt-32 md:pb-36">
         <Reveal>
-          <h2 className="font-sans font-bold leading-[1.1] tracking-tight text-cream text-[clamp(20px,5.4vw,52px)]">
+          <h2 className="font-sans font-bold leading-[1.1] tracking-tight text-cream text-[32px] md:text-[clamp(36px,5.4vw,52px)]">
             Four states. One <Highlight>trajectory</Highlight>
           </h2>
         </Reveal>
 
         {/* T-state journey — magazine spread: counter right, label/body left */}
-        <ol ref={columnRef} className="relative mt-16 md:mt-20">
+        <ol ref={columnRef} className="relative mt-12 md:mt-20">
           <span
             aria-hidden="true"
             className="absolute left-[4px] top-2 bottom-2 w-px bg-coral/15"
@@ -101,31 +101,31 @@ export function Compound() {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute left-0 top-[14px] block bg-coral phosphor-coral md:top-[18px]"
+                  className="absolute left-0 top-[12px] block bg-coral phosphor-coral md:top-[18px]"
                   style={{ width: 10, height: 1 }}
                 />
 
-                <div className="grid grid-cols-1 items-center gap-2 md:grid-cols-12 md:gap-6">
-                  <div className="md:col-span-9">
-                    <p className="font-mono text-[24px] font-medium uppercase leading-[1] tracking-[0.04em] text-coral md:text-[32px]">
+                <div className="grid grid-cols-12 items-center gap-3 md:gap-6">
+                  <div className="col-span-8 md:col-span-9">
+                    <p className="font-mono text-[22px] font-medium uppercase leading-[1] tracking-[0.04em] text-coral md:text-[32px]">
                       {s.label}
                     </p>
-                    <p className="mt-4 max-w-[60ch] font-mono text-[15px] leading-[1.55] text-cream/90 md:text-[16px]">
+                    <p className="mt-3 max-w-[60ch] font-mono text-[14px] leading-[1.5] text-cream/90 md:mt-4 md:text-[16px]">
                       {s.body}
                     </p>
                   </div>
-                  <div className="hidden md:col-span-3 md:flex md:items-center md:justify-end">
+                  <div className="col-span-4 flex items-center justify-end md:col-span-3">
                     <Reveal
                       as="span"
                       variant="counter-reveal"
                       threshold={0.4}
-                      className="font-mono font-light leading-none text-[64px] md:text-[96px]"
+                      className="font-mono font-light leading-none text-[56px] md:text-[96px]"
                     >
                       {s.counter}
                     </Reveal>
                   </div>
                 </div>
-                {!isLast && <div className="h-20" aria-hidden="true" />}
+                {!isLast && <div className="h-16 md:h-20" aria-hidden="true" />}
               </Reveal>
             );
           })}

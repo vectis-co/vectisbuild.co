@@ -142,13 +142,19 @@
   }
 }
 
-/* T-state counter emphasis — slower fade + 24px rise to 20% resting opacity. */
+/* T-state counter emphasis — slower fade + rise to 20% resting opacity. */
 .counter-reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
   transition: opacity 600ms ease-out, transform 600ms ease-out;
   will-change: opacity, transform;
   color: rgba(201, 94, 64, 0.2);
+}
+
+@media (min-width: 768px) {
+  .counter-reveal {
+    transform: translateY(24px);
+  }
 }
 
 .counter-reveal.is-visible {

@@ -8,12 +8,21 @@ import { Highlight } from "../Highlight";
 export function Hero() {
   const wrapRef = useRef<HTMLElement | null>(null);
   const [offset, setOffset] = useState(0);
+  const [scale, setScale] = useState(1.06);
 
   useEffect(() => {
-    const reduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    const updateScale = () => {
+      // Mobile: scale up the illustration so the rocket fills more of the
+      // narrow viewport while the plume continues to bleed off the right edge.
+      setScale(window.innerWidth < 768 ? 1.18 : 1.06);
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      return () => window.removeEventListener("resize", updateScale);
+    }
 
     let raf = 0;
     const onScroll = () => {
@@ -31,6 +40,7 @@ export function Hero() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateScale);
     };
   }, []);
 
@@ -43,7 +53,7 @@ export function Hero() {
       {/* Background illustration — full bleed; rocket+plume run off the right edge */}
       <div
         className="hero-image pointer-events-none absolute inset-0 -z-10"
-        style={{ transform: `translate3d(0, ${-offset}px, 0) scale(1.06)` }}
+        style={{ transform: `translate3d(0, ${-offset}px, 0) scale(${scale})` }}
       >
         <Image
           src="/hero-illustration.jpg"
@@ -51,7 +61,7 @@ export function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[78%_50%] md:object-[47%_50%]"
+          className="object-cover object-[65%_40%] md:object-[47%_50%]"
         />
         {/* Left-side legibility scrim — keeps the rocket clear on the right */}
         <div
@@ -97,7 +107,7 @@ export function Hero() {
               We make businesses and busy people AI native.
             </p>
 
-            <p className="mt-[18px] max-w-[60ch] font-mono text-[15px] leading-[1.65] text-cream/85 md:text-[16px]">
+            <p className="mt-[18px] max-w-[60ch] font-mono text-[14px] leading-[1.65] text-cream/85 md:text-[16px]">
               AI implementation for operators of $1M–$50M companies. Private
               1:1 advisory for senior operators. The deliverable is the system
               in production, not the recommendation.

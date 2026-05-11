@@ -35,7 +35,7 @@ export function CommandCTA({
   return (
     <a
       href={href}
-      className={`group inline-flex cursor-pointer items-baseline font-mono leading-none tracking-[0.01em] transition-opacity duration-150 ease-out hover:opacity-90 ${SIZE_CLASS[size]} ${className}`}
+      className={`group inline-flex cursor-pointer items-baseline font-mono leading-none tracking-[0.01em] transition-opacity duration-150 ease-out hover:opacity-90 active:opacity-75 ${SIZE_CLASS[size]} ${className}`}
     >
       <span className="text-coral phosphor-coral" aria-hidden="true">[</span>
       <span className="text-coral" aria-hidden="true">/</span>
