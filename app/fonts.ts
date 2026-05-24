@@ -1,4 +1,12 @@
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
+
+export const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const plexMono = localFont({
   variable: "--font-plex-mono",
