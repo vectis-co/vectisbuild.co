@@ -1,12 +1,5 @@
 import localFont from "next/font/local";
-import { Inter } from "next/font/google";
-
-export const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
+import { Newsreader } from "next/font/google";
 
 export const plexMono = localFont({
   variable: "--font-plex-mono",
@@ -29,10 +22,10 @@ export const clash = localFont({
   ],
 });
 
-export const newsreader = localFont({
+export const newsreader = Newsreader({
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["italic"],
   variable: "--font-newsreader",
   display: "swap",
-  src: [
-    { path: "./fonts/Newsreader-Italic.ttf", style: "italic" },
-  ],
 });

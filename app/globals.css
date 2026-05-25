@@ -5,6 +5,12 @@
   --color-navy: #1F384A;
   --color-coral: #C95E40;
 
+  /* Pre-launch holding-page tokens */
+  --color-deep-ink: #0E1A26;
+  --color-signal-orange: #FF6A1A;
+  --color-signal-green: #4ADE80;
+  --color-mission-white: #F2F2F1;
+
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
   --font-sans: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-italic: var(--font-newsreader), ui-serif, Georgia, serif;
@@ -27,8 +33,8 @@
   }
 
   body {
-    background-color: var(--color-navy);
-    color: var(--color-cream);
+    background-color: var(--color-deep-ink);
+    color: var(--color-mission-white);
     font-family: var(--font-mono);
     font-weight: 400;
     font-size: 16px;

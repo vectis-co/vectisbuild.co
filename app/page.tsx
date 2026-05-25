@@ -1,19 +1,44 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
+import Image from "next/image";
+
+const STORAGE_KEY = "vectis-notify-submitted";
 
 export default function HomePage() {
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(STORAGE_KEY) === "1") setSubmitted(true);
+    } catch {
+      // localStorage may be unavailable (private mode, disabled cookies)
+    }
+  }, []);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // TODO: hook up Formspree or Vercel form handling
     setSubmitted(true);
+    try {
+      localStorage.setItem(STORAGE_KEY, "1");
+    } catch {
+      // ignore
+    }
   }
 
   return (
     <>
-      <div className="bg-layer" aria-hidden="true" />
+      <div className="bg-layer" aria-hidden="true">
+        <Image
+          src="/rocket.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="rocket-img"
+        />
+      </div>
       <div className="overlay-layer" aria-hidden="true" />
       <div className="fade-top" aria-hidden="true" />
       <div className="fade-bottom" aria-hidden="true" />
@@ -24,9 +49,8 @@ export default function HomePage() {
             <span className="wordmark">
               <span className="slash">/</span>vectis
             </span>
-            <span className="version">v1.0</span>
           </div>
-          <div className="status">
+          <div className="status" aria-label="System status: nominal">
             <span className="dot" aria-hidden="true" />
             <span className="status-label">SYS · NOMINAL</span>
           </div>
@@ -46,9 +70,9 @@ export default function HomePage() {
               Engineered to compound.<br />Designed to stand out.
             </p>
 
-            <div className="system-status">
+            <div className="system-status" aria-hidden="true">
               <span>SYSTEM INITIALIZING</span>
-              <span className="dots" aria-hidden="true">
+              <span className="dots">
                 <span className="dotc">.</span>
                 <span className="dotc">.</span>
                 <span className="dotc">.</span>
@@ -56,26 +80,39 @@ export default function HomePage() {
             </div>
 
             <div className="notify">
-              <div className="section-label notify-label">
+              <label
+                htmlFor="notify-email"
+                className="section-label notify-label"
+              >
                 <span>02 / NOTIFY ON LAUNCH</span>
                 <span className="rule" aria-hidden="true" />
-              </div>
+              </label>
 
               {!submitted ? (
                 <form className="notify-form" onSubmit={handleSubmit}>
                   <input
+                    id="notify-email"
                     type="email"
                     name="email"
                     placeholder="enter email"
                     required
                     autoComplete="email"
-                    aria-label="email"
+                    aria-label="Email address for launch notification"
                   />
-                  <button type="submit" aria-label="submit">→</button>
+                  <button
+                    type="submit"
+                    className="submit-btn"
+                    aria-label="Notify me when /vectis launches"
+                  >
+                    <span aria-hidden="true">→</span>
+                  </button>
                 </form>
               ) : (
                 <div className="success" role="status">
-                  <span className="check">✓</span> Signal received
+                  <span className="check" aria-hidden="true">
+                    ✓
+                  </span>{" "}
+                  Signal received
                 </div>
               )}
             </div>
@@ -84,7 +121,7 @@ export default function HomePage() {
 
         <footer className="bottom">
           <div className="bottom-left">
-            <span className="slash-o">/</span>vectis <span className="dot-o">·</span> ai implementation <span className="dot-o">·</span> advisory
+            ai implementation <span className="dot-o">·</span> advisory
           </div>
           <div className="bottom-right">vectisbuild.co</div>
         </footer>
@@ -95,11 +132,12 @@ export default function HomePage() {
           position: fixed;
           inset: 0;
           z-index: 0;
-          background-color: #0e1a26;
-          background-image: url("/rocket.png");
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+          background-color: var(--color-deep-ink);
+          --rocket-obj-pos: center;
+        }
+        .bg-layer :global(.rocket-img) {
+          object-fit: cover;
+          object-position: var(--rocket-obj-pos);
         }
         .overlay-layer {
           position: fixed;
@@ -108,10 +146,10 @@ export default function HomePage() {
           pointer-events: none;
           background: linear-gradient(
             90deg,
-            rgba(14, 26, 38, 0.88) 0%,
-            rgba(14, 26, 38, 0.6) 30%,
-            rgba(14, 26, 38, 0.15) 55%,
-            rgba(14, 26, 38, 0) 75%
+            rgba(14, 26, 38, 0.9) 0%,
+            rgba(14, 26, 38, 0.65) 32%,
+            rgba(14, 26, 38, 0.2) 58%,
+            rgba(14, 26, 38, 0) 78%
           );
         }
         .fade-top {
@@ -138,7 +176,7 @@ export default function HomePage() {
           pointer-events: none;
           background: linear-gradient(
             0deg,
-            rgba(14, 26, 38, 0.7) 0%,
+            rgba(14, 26, 38, 0.75) 0%,
             rgba(14, 26, 38, 0) 100%
           );
         }
@@ -147,11 +185,12 @@ export default function HomePage() {
           position: relative;
           z-index: 2;
           min-height: 100vh;
+          min-height: 100svh;
           min-height: 100dvh;
           display: grid;
           grid-template-rows: auto 1fr auto;
           padding: 32px 56px;
-          color: #f2f2f1;
+          color: var(--color-mission-white);
           font-family: var(--font-plex-mono), ui-monospace, SFMono-Regular,
             monospace;
         }
@@ -160,26 +199,22 @@ export default function HomePage() {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: 16px;
         }
         .brand {
           display: flex;
           align-items: baseline;
           gap: 10px;
+          min-width: 0;
         }
         .wordmark {
           font-weight: 500;
           font-size: 20px;
-          color: #f2f2f1;
+          color: var(--color-mission-white);
           letter-spacing: -0.01em;
         }
         .slash {
-          color: #ff6a1a;
-        }
-        .version {
-          font-size: 10px;
-          font-weight: 400;
-          color: rgba(242, 242, 241, 0.4);
-          letter-spacing: 0.08em;
+          color: var(--color-signal-orange);
         }
         .status {
           display: flex;
@@ -190,14 +225,14 @@ export default function HomePage() {
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #4ade80;
+          background: var(--color-signal-green);
           box-shadow: 0 0 8px rgba(74, 222, 128, 0.75);
           animation: softPulse 1.8s ease-in-out infinite;
         }
         .status-label {
           font-size: 11px;
           font-weight: 500;
-          color: rgba(74, 222, 128, 0.95);
+          color: var(--color-signal-green);
           letter-spacing: 0.1em;
           text-transform: uppercase;
         }
@@ -235,17 +270,19 @@ export default function HomePage() {
           font-size: 38px;
           line-height: 1.16;
           letter-spacing: -0.02em;
-          color: #f2f2f1;
-          text-shadow: 0 2px 12px rgba(14, 26, 38, 0.4);
+          color: var(--color-mission-white);
+          text-shadow: 0 2px 16px rgba(14, 26, 38, 0.7);
           margin: 0 0 20px 0;
         }
         .subhead {
-          font-family: var(--font-plex-mono), ui-monospace, monospace;
-          font-weight: 300;
-          font-size: 16px;
-          line-height: 1.55;
-          color: rgba(242, 242, 241, 0.72);
-          text-shadow: 0 2px 12px rgba(14, 26, 38, 0.4);
+          font-family: var(--font-newsreader), ui-serif, Georgia, serif;
+          font-style: italic;
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 28px;
+          letter-spacing: 0;
+          color: rgba(242, 242, 241, 0.85);
+          text-shadow: 0 2px 16px rgba(14, 26, 38, 0.7);
           margin: 0 0 44px 0;
         }
         .system-status {
@@ -255,7 +292,8 @@ export default function HomePage() {
           font-size: 12px;
           letter-spacing: 0.22em;
           text-transform: uppercase;
-          color: rgba(242, 242, 241, 0.8);
+          color: rgba(242, 242, 241, 0.9);
+          text-shadow: 0 1px 8px rgba(14, 26, 38, 0.6);
           margin-bottom: 44px;
         }
         .dots {
@@ -264,7 +302,7 @@ export default function HomePage() {
         }
         .dotc {
           animation: blink 1.4s infinite both;
-          color: rgba(242, 242, 241, 0.8);
+          color: rgba(242, 242, 241, 0.9);
         }
         .dotc:nth-child(1) {
           animation-delay: 0s;
@@ -282,69 +320,84 @@ export default function HomePage() {
         }
         .notify-label {
           margin-bottom: 14px;
+          cursor: pointer;
         }
         .notify-form {
           display: flex;
-          align-items: center;
-          border-bottom: 1px solid rgba(242, 242, 241, 0.3);
+          align-items: stretch;
+          border-bottom: 1px solid rgba(242, 242, 241, 0.35);
           transition: border-color 200ms ease-out;
         }
         .notify-form:focus-within {
-          border-bottom-color: rgba(255, 106, 26, 0.8);
+          border-bottom-color: rgba(255, 106, 26, 0.9);
         }
         .notify-form input {
           flex: 1;
+          min-width: 0;
           background: transparent;
           border: none;
           outline: none;
-          color: #f2f2f1;
+          color: var(--color-mission-white);
           font-family: var(--font-plex-mono), ui-monospace, monospace;
           font-size: 14px;
-          padding: 12px 0;
+          padding: 14px 0;
         }
         .notify-form input::placeholder {
-          color: rgba(242, 242, 241, 0.35);
+          color: rgba(242, 242, 241, 0.45);
         }
-        .notify-form button {
+        .submit-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 44px;
+          min-height: 44px;
           background: transparent;
           border: none;
-          color: #ff6a1a;
+          color: var(--color-signal-orange);
           font-family: var(--font-plex-mono), ui-monospace, monospace;
-          font-size: 20px;
-          padding: 8px 0 8px 12px;
+          font-size: 22px;
+          line-height: 1;
+          padding: 0 4px 0 12px;
+          margin-right: -4px;
           transition: transform 180ms ease-out;
           cursor: pointer;
+          border-radius: 4px;
         }
-        .notify-form button:hover {
+        .submit-btn:hover {
           transform: translateX(3px);
+        }
+        .submit-btn:focus-visible {
+          outline: 2px solid var(--color-signal-orange);
+          outline-offset: 4px;
         }
         .success {
           font-family: var(--font-plex-mono), ui-monospace, monospace;
           font-size: 13px;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(74, 222, 128, 0.95);
-          border-bottom: 1px solid rgba(74, 222, 128, 0.4);
-          padding: 14px 0;
+          color: var(--color-signal-green);
+          border-bottom: 1px solid rgba(74, 222, 128, 0.45);
+          padding: 18px 0;
           animation: fadeIn 0.3s ease-out;
         }
         .check {
-          color: #4ade80;
-          margin-right: 4px;
+          color: var(--color-signal-green);
+          margin-right: 6px;
         }
 
         .bottom {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-size: 10px;
+          gap: 12px;
+          font-size: 11px;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: rgba(242, 242, 241, 0.5);
+          color: rgba(242, 242, 241, 0.7);
+          text-shadow: 0 1px 6px rgba(14, 26, 38, 0.5);
         }
-        .slash-o,
         .dot-o {
-          color: rgba(255, 106, 26, 0.6);
+          color: rgba(255, 106, 26, 0.75);
         }
 
         @keyframes blink {
@@ -377,37 +430,77 @@ export default function HomePage() {
           }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+          .dot,
+          .dotc,
+          .success {
+            animation: none;
+          }
+          .submit-btn {
+            transition: none;
+          }
+          .submit-btn:hover {
+            transform: none;
+          }
+          .notify-form {
+            transition: none;
+          }
+        }
+
         @media (max-width: 880px) {
           .page {
             padding: 24px;
           }
           .bg-layer {
-            background-position: 70% center;
+            --rocket-obj-pos: 78% center;
           }
           .overlay-layer {
             background: linear-gradient(
               180deg,
-              rgba(14, 26, 38, 0.78) 0%,
-              rgba(14, 26, 38, 0.3) 35%,
-              rgba(14, 26, 38, 0.15) 55%,
-              rgba(14, 26, 38, 0.55) 100%
+              rgba(14, 26, 38, 0.85) 0%,
+              rgba(14, 26, 38, 0.7) 30%,
+              rgba(14, 26, 38, 0.55) 55%,
+              rgba(14, 26, 38, 0.6) 75%,
+              rgba(14, 26, 38, 0.8) 100%
             );
           }
           .wordmark {
             font-size: 16px;
           }
-          .version {
-            font-size: 9px;
-          }
           .headline {
             font-size: 28px;
           }
           .subhead {
-            font-size: 14px;
+            font-size: 16px;
+            line-height: 24px;
           }
           .bottom {
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
+            font-size: 10px;
+          }
+        }
+
+        @media (min-width: 1440px) {
+          .overlay-layer {
+            background: linear-gradient(
+              90deg,
+              rgba(14, 26, 38, 0.92) 0%,
+              rgba(14, 26, 38, 0.7) 30%,
+              rgba(14, 26, 38, 0) 85%
+            );
+          }
+        }
+
+        @media (min-width: 1441px) {
+          .bg-layer {
+            --rocket-obj-pos: 35% center;
+          }
+        }
+
+        @media (min-width: 1921px) {
+          .bg-layer {
+            --rocket-obj-pos: 25% center;
           }
         }
       `}</style>
